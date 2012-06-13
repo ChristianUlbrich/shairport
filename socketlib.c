@@ -44,15 +44,15 @@ int common_setup(struct addrinfo *pAddrInfo)
   int tSock;
   //printAddrs(pAddrInfo);
   tSock = socket(pAddrInfo->ai_family, pAddrInfo->ai_socktype, 0);
-#ifdef AF_INET6
-  if((tSock==-1) && (pAddrInfo->ai_family == AF_INET6) && (errno == EAFNOSUPPORT))
-  {
+//#ifdef AF_INET6
+ // if((tSock==-1) && (pAddrInfo->ai_family == AF_INET6) && (errno == EAFNOSUPPORT))
+  //{
     //Fallback to ipv4
-    perror("Failed to create ipv6 socket. Trying ipv4");
-    pAddrInfo->ai_family = AF_INET;
-    tSock = socket(pAddrInfo->ai_family, pAddrInfo->ai_socktype, 0);
-  }
-#endif
+  //  perror("Failed to create ipv6 socket. Trying ipv4");
+  //  pAddrInfo->ai_family = AF_INET;
+  //  tSock = socket(pAddrInfo->ai_family, pAddrInfo->ai_socktype, 0);
+ // }
+//#endif
   return tSock;
 }
 
@@ -157,12 +157,12 @@ int setupListenServer(struct addrinfo **pAddrInfo, int pPort)
     char tService[SERVLEN];
     sprintf(tService, "%d", pPort); // copies port to string
     int tFamily = AF_INET;
-    #ifdef AF_INET6
+    //#ifdef AF_INET6
     //printf("Listening on IPv6 Socket\n");
-    tFamily = AF_INET6;
-    #else
+    //tFamily = AF_INET6;
+    //#else
     //printf("Listening on IPv4 Socket");
-    #endif
+    //#endif
     if(getAddr(NULL, tService, tFamily, SOCK_STREAM, pAddrInfo))
     {
       return ERROR; // getAddr prints out error message
